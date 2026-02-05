@@ -11,6 +11,7 @@ export interface App {
   baseWebUrl: string;
   hashSalt: string;
   folderPrefix: number;
+  allowNewUsers: boolean;
 }
 
 export enum DebugOption {

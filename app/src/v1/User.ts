@@ -22,6 +22,11 @@ export default class User extends Controller {
       uid: uid
     });
     if (user.notFound) {
+      // Check if new users are allowed
+      if (!this.app.allowNewUsers) {
+        throw new HTTPException(403, { message: 'New user registration is not allowed' });
+      }
+
       // Create a new user
       user.row.uid = uid;
       user.row.created = now();

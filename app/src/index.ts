@@ -23,7 +23,8 @@ export const appInstance: App = {
   baseFolder: __dirname.replace(/\/?app\/[^/]+\/?$/, ''),
   baseWebUrl: process.env.BASE_WEB_URL?.replace(/\/*$/, '') || '',
   hashSalt: process.env.HASH_SALT || '',
-  folderPrefix: parseInt(process.env.FOLDER_PREFIX || '0', 10)
+  folderPrefix: parseInt(process.env.FOLDER_PREFIX || '0', 10),
+  allowNewUsers: process.env.ALLOW_NEW_USERS?.toLowerCase() !== 'false'
 }
 
 const app = new Hono()
