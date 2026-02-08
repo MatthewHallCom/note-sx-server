@@ -221,6 +221,9 @@ export default class File extends Controller {
       note.addEncryptedData(template.content, this.context.get('pluginVersion'))
     }
 
+    // Enable annotations
+    note.enableAnnotations(this.filename)
+
     if (Array.isArray(template.elements)) {
       template.elements.forEach((el: any) => {
         note.setClassAndStyle(el?.element, el?.classes, el?.style)

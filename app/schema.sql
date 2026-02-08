@@ -42,6 +42,30 @@ CREATE TABLE IF NOT EXISTS `users`
     `created` INTEGER  NOT NULL DEFAULT (unixepoch())
 );
 
+CREATE TABLE IF NOT EXISTS `annotations`
+(
+    `id`             INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    `note_filename`  TEXT    NOT NULL,
+    `type`           TEXT    NOT NULL CHECK(type IN ('comment', 'suggestion', 'deletion')),
+    `quote`          TEXT    NOT NULL,
+    `prefix`         TEXT    NOT NULL DEFAULT '',
+    `suffix`         TEXT    NOT NULL DEFAULT '',
+    `body`           TEXT             DEFAULT NULL,
+    `author_name`    TEXT    NOT NULL DEFAULT 'Anonymous',
+    `created`        INTEGER NOT NULL DEFAULT (unixepoch()),
+    `quote_offset`   INTEGER          DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `annotation_replies`
+(
+    `id`             INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    `annotation_id`  INTEGER NOT NULL REFERENCES annotations(id) ON DELETE CASCADE,
+    `body`           TEXT    NOT NULL,
+    `author_name`    TEXT    NOT NULL DEFAULT 'Anonymous',
+    `created`        INTEGER NOT NULL DEFAULT (unixepoch())
+);
+
+
 CREATE UNIQUE INDEX IF NOT EXISTS idx_apikeys_api_key ON api_keys (api_key);
 CREATE INDEX IF NOT EXISTS idx_apikeys_created ON api_keys (created);
 CREATE INDEX IF NOT EXISTS idx_apikeys_validated ON api_keys (validated);
@@ -65,3 +89,8 @@ CREATE INDEX IF NOT EXISTS idx_logs_files_id ON logs (files_id);
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_users_uid ON users (uid);
 CREATE INDEX IF NOT EXISTS idx_users_created ON users (created);
+
+CREATE INDEX IF NOT EXISTS idx_annotations_note_filename ON annotations (note_filename);
+CREATE INDEX IF NOT EXISTS idx_annotations_created ON annotations (created);
+
+CREATE INDEX IF NOT EXISTS idx_annotation_replies_annotation_id ON annotation_replies (annotation_id);

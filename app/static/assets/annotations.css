@@ -1,0 +1,713 @@
+/* ==========================================
+ * Annotations — Track Changes Styles
+ * ========================================== */
+
+/* --- Annotation Highlights --- */
+
+.annotation-comment {
+  background-color: rgba(255, 208, 0, 0.25);
+  border-bottom: 2px solid rgba(255, 208, 0, 0.6);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.annotation-deletion {
+  text-decoration: line-through;
+  text-decoration-color: #e74c3c;
+  color: #999;
+  background-color: rgba(231, 76, 60, 0.1);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.annotation-suggestion-original {
+  background-color: rgba(231, 76, 60, 0.1);
+  text-decoration: line-through;
+  text-decoration-color: rgba(231, 76, 60, 0.5);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.annotation-suggestion-replacement {
+  background-color: rgba(46, 204, 113, 0.15);
+  border-bottom: 2px solid rgba(46, 204, 113, 0.5);
+  color: #27ae60;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Dark theme adjustments */
+.theme-dark .annotation-comment {
+  background-color: rgba(255, 208, 0, 0.15);
+  border-bottom-color: rgba(255, 208, 0, 0.4);
+}
+
+.theme-dark .annotation-deletion {
+  color: #666;
+  background-color: rgba(231, 76, 60, 0.08);
+}
+
+.theme-dark .annotation-suggestion-original {
+  background-color: rgba(231, 76, 60, 0.08);
+}
+
+.theme-dark .annotation-suggestion-replacement {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+}
+
+/* --- Selection Toolbar --- */
+
+.annotation-toolbar {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  background: var(--background-primary, #fff);
+  border: 1px solid var(--background-modifier-border, #ddd);
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+  animation: annotation-fade-in 0.15s ease-out;
+}
+
+.theme-dark .annotation-toolbar {
+  background: var(--background-primary, #1e1e1e);
+  border-color: var(--background-modifier-border, #444);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.annotation-toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted, #888);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  line-height: 1;
+}
+
+.annotation-toolbar-btn:hover {
+  background: var(--background-modifier-hover, #f0f0f0);
+}
+
+.annotation-toolbar-btn svg {
+  display: block;
+}
+
+.theme-dark .annotation-toolbar-btn {
+  color: var(--text-muted, #999);
+}
+
+.theme-dark .annotation-toolbar-btn:hover {
+  background: var(--background-modifier-hover, #333);
+}
+
+.annotation-toolbar-btn.btn-comment:hover { color: #d4a017; }
+.annotation-toolbar-btn.btn-suggest:hover { color: #27ae60; }
+.annotation-toolbar-btn.btn-delete:hover { color: #e74c3c; }
+
+/* Toolbar inline input */
+.annotation-toolbar-input-row {
+  display: flex;
+  gap: 4px;
+  padding: 4px 0 0;
+  width: 200px;
+}
+
+.annotation-toolbar-input {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid var(--background-modifier-border, #ddd);
+  border-radius: 4px;
+  background: var(--background-primary, #fff);
+  color: var(--text-normal, #333);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+}
+
+.annotation-toolbar-input:focus {
+  border-color: var(--interactive-accent, #7c5cbf);
+}
+
+.theme-dark .annotation-toolbar-input {
+  background: var(--background-primary, #2a2a2a);
+  color: var(--text-normal, #ddd);
+  border-color: var(--background-modifier-border, #555);
+}
+
+.annotation-toolbar-submit {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  background: var(--interactive-accent, #7c5cbf);
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+}
+
+.annotation-toolbar-submit:hover {
+  opacity: 0.9;
+}
+
+/* --- Tooltip --- */
+
+.annotation-tooltip {
+  position: absolute;
+  z-index: 1001;
+  max-width: 300px;
+  padding: 8px 12px;
+  background: var(--background-primary, #fff);
+  border: 1px solid var(--background-modifier-border, #ddd);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+  line-height: 1.4;
+  animation: annotation-fade-in 0.15s ease-out;
+}
+
+.theme-dark .annotation-tooltip {
+  background: var(--background-primary, #1e1e1e);
+  border-color: var(--background-modifier-border, #444);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.annotation-tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  gap: 12px;
+}
+
+.annotation-tooltip-author {
+  font-weight: 600;
+  color: var(--text-normal, #333);
+}
+
+.theme-dark .annotation-tooltip-author {
+  color: var(--text-normal, #ddd);
+}
+
+.annotation-tooltip-time {
+  font-size: 11px;
+  color: var(--text-muted, #999);
+  white-space: nowrap;
+}
+
+.annotation-tooltip-body {
+  color: var(--text-normal, #333);
+  margin: 4px 0;
+  word-wrap: break-word;
+}
+
+.theme-dark .annotation-tooltip-body {
+  color: var(--text-normal, #ccc);
+}
+
+.annotation-tooltip-type {
+  font-size: 11px;
+  color: var(--text-muted, #999);
+  text-transform: capitalize;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--background-modifier-border, #eee);
+}
+
+.theme-dark .annotation-tooltip-type {
+  border-top-color: var(--background-modifier-border, #444);
+}
+
+.annotation-tooltip-actions {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--background-modifier-border, #eee);
+}
+
+.theme-dark .annotation-tooltip-actions {
+  border-top-color: var(--background-modifier-border, #444);
+}
+
+.annotation-tooltip-remove-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted, #999);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  transition: background 0.1s, color 0.1s;
+}
+
+.annotation-tooltip-remove-btn:hover {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.annotation-tooltip-remove-btn svg {
+  display: block;
+}
+
+/* --- Nickname Modal --- */
+
+.annotation-nickname-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  animation: annotation-fade-in 0.15s ease-out;
+}
+
+.annotation-nickname-modal {
+  background: var(--background-primary, #fff);
+  border-radius: 8px;
+  padding: 24px;
+  min-width: 280px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.theme-dark .annotation-nickname-modal {
+  background: var(--background-primary, #1e1e1e);
+}
+
+.annotation-nickname-modal h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--text-normal, #333);
+}
+
+.theme-dark .annotation-nickname-modal h3 {
+  color: var(--text-normal, #ddd);
+}
+
+.annotation-nickname-modal p {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: var(--text-muted, #666);
+}
+
+.annotation-nickname-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--background-modifier-border, #ddd);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--background-primary, #fff);
+  color: var(--text-normal, #333);
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+
+.annotation-nickname-input:focus {
+  border-color: var(--interactive-accent, #7c5cbf);
+}
+
+.theme-dark .annotation-nickname-input {
+  background: var(--background-primary, #2a2a2a);
+  color: var(--text-normal, #ddd);
+  border-color: var(--background-modifier-border, #555);
+}
+
+.annotation-nickname-submit {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background: var(--interactive-accent, #7c5cbf);
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.annotation-nickname-submit:hover {
+  opacity: 0.9;
+}
+
+/* --- Orphaned Annotations --- */
+
+.annotation-orphaned-list {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--background-modifier-border, #ddd);
+}
+
+.annotation-orphaned-title {
+  font-size: 14px;
+  color: var(--text-muted, #999);
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+
+.annotation-orphaned-item {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.theme-dark .annotation-orphaned-item {
+  background: var(--background-secondary, #2a2a2a);
+}
+
+.annotation-orphaned-quote {
+  font-style: italic;
+  color: var(--text-muted, #666);
+}
+
+.annotation-orphaned-meta {
+  font-size: 12px;
+  color: var(--text-muted, #999);
+  margin-left: 4px;
+}
+
+.annotation-orphaned-body {
+  margin-top: 4px;
+  color: var(--text-normal, #333);
+}
+
+.theme-dark .annotation-orphaned-body {
+  color: var(--text-normal, #ccc);
+}
+
+/* --- Floating Cards Layer --- */
+
+.annotation-cards-layer {
+  position: absolute;
+  top: 0;
+  width: 260px;
+  z-index: 100;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.annotation-cards-layer > * {
+  pointer-events: auto;
+}
+
+/* --- Sidebar Cards --- */
+
+.annotation-sidebar-card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--background-modifier-border, #e8e8e8);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, top 0.2s ease-out;
+  background: var(--background-primary, #fff);
+  box-sizing: border-box;
+}
+
+.annotation-sidebar-card:hover {
+  border-color: var(--background-modifier-border-hover, #ccc);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.annotation-sidebar-card.expanded {
+  border-color: var(--interactive-accent, #7c5cbf);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.theme-dark .annotation-sidebar-card {
+  background: var(--background-secondary, #262626);
+  border-color: var(--background-modifier-border, #3a3a3a);
+}
+
+.theme-dark .annotation-sidebar-card:hover {
+  border-color: var(--background-modifier-border-hover, #555);
+}
+
+.theme-dark .annotation-sidebar-card.expanded {
+  border-color: var(--interactive-accent, #7c5cbf);
+}
+
+/* Type color indicators — left border */
+.annotation-sidebar-card.card-type-comment {
+  border-left: 3px solid rgba(255, 208, 0, 0.6);
+}
+
+.annotation-sidebar-card.card-type-deletion {
+  border-left: 3px solid rgba(231, 76, 60, 0.6);
+}
+
+.annotation-sidebar-card.card-type-suggestion {
+  border-left: 3px solid rgba(46, 204, 113, 0.6);
+}
+
+/* Card header */
+.annotation-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  gap: 8px;
+}
+
+.annotation-card-author {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-normal, #333);
+}
+
+.theme-dark .annotation-card-author {
+  color: var(--text-normal, #ddd);
+}
+
+.annotation-card-time {
+  font-size: 11px;
+  color: var(--text-muted, #999);
+  white-space: nowrap;
+}
+
+/* Quoted text */
+.annotation-card-quote {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text-muted, #777);
+  margin-bottom: 4px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme-dark .annotation-card-quote {
+  color: var(--text-muted, #888);
+}
+
+/* Card body */
+.annotation-card-body {
+  font-size: 13px;
+  color: var(--text-normal, #333);
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.theme-dark .annotation-card-body {
+  color: var(--text-normal, #ccc);
+}
+
+.annotation-card-suggestion-label {
+  color: #27ae60;
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.annotation-card-deletion-label {
+  color: #e74c3c;
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* Reply count */
+.annotation-card-reply-count {
+  font-size: 11px;
+  color: var(--text-muted, #999);
+  margin-top: 4px;
+}
+
+/* --- Thread (expanded) --- */
+
+.annotation-card-thread {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--background-modifier-border, #eee);
+}
+
+.theme-dark .annotation-card-thread {
+  border-top-color: var(--background-modifier-border, #444);
+}
+
+/* Individual reply */
+.annotation-card-reply {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--background-modifier-border, #f0f0f0);
+}
+
+.annotation-card-reply:last-of-type {
+  border-bottom: none;
+}
+
+.theme-dark .annotation-card-reply {
+  border-bottom-color: var(--background-modifier-border, #3a3a3a);
+}
+
+.annotation-card-reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.annotation-card-reply-author {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-normal, #333);
+}
+
+.theme-dark .annotation-card-reply-author {
+  color: var(--text-normal, #ddd);
+}
+
+.annotation-card-reply-time {
+  font-size: 10px;
+  color: var(--text-muted, #aaa);
+  white-space: nowrap;
+}
+
+.annotation-card-reply-body {
+  font-size: 12px;
+  color: var(--text-normal, #444);
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.theme-dark .annotation-card-reply-body {
+  color: var(--text-normal, #bbb);
+}
+
+/* Reply input */
+.annotation-card-reply-input-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.annotation-card-reply-input {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid var(--background-modifier-border, #ddd);
+  border-radius: 4px;
+  background: var(--background-primary, #fff);
+  color: var(--text-normal, #333);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+}
+
+.annotation-card-reply-input:focus {
+  border-color: var(--interactive-accent, #7c5cbf);
+}
+
+.theme-dark .annotation-card-reply-input {
+  background: var(--background-primary, #1e1e1e);
+  color: var(--text-normal, #ddd);
+  border-color: var(--background-modifier-border, #555);
+}
+
+.annotation-card-reply-btn {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  background: var(--interactive-accent, #7c5cbf);
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+}
+
+.annotation-card-reply-btn:hover {
+  opacity: 0.9;
+}
+
+/* Card actions (inside thread) */
+.annotation-card-actions {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--background-modifier-border, #eee);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.theme-dark .annotation-card-actions {
+  border-top-color: var(--background-modifier-border, #444);
+}
+
+.annotation-card-remove-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted, #999);
+  cursor: pointer;
+  font-size: 11px;
+  font-family: inherit;
+  transition: background 0.1s, color 0.1s;
+}
+
+.annotation-card-remove-btn:hover {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.annotation-card-remove-btn svg {
+  display: block;
+}
+
+/* --- Draft card (new annotation input in sidebar) --- */
+
+.annotation-draft-card {
+  border-style: dashed;
+  animation: annotation-fade-in 0.15s ease-out;
+}
+
+/* --- Active highlight for inline annotations (hover from sidebar) --- */
+
+.annotation-highlight-active.annotation-comment {
+  background-color: rgba(255, 208, 0, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 208, 0, 0.3);
+}
+
+.annotation-highlight-active.annotation-deletion {
+  background-color: rgba(231, 76, 60, 0.2);
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+.annotation-highlight-active.annotation-suggestion-original {
+  background-color: rgba(231, 76, 60, 0.2);
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+.theme-dark .annotation-highlight-active.annotation-comment {
+  background-color: rgba(255, 208, 0, 0.35);
+}
+
+.theme-dark .annotation-highlight-active.annotation-deletion {
+  background-color: rgba(231, 76, 60, 0.15);
+}
+
+.theme-dark .annotation-highlight-active.annotation-suggestion-original {
+  background-color: rgba(231, 76, 60, 0.15);
+}
+
+/* --- Animation --- */
+
+@keyframes annotation-fade-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}

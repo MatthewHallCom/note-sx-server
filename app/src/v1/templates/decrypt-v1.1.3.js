@@ -41,6 +41,7 @@ if (payload && secret) {
       if (contentEl) contentEl.outerHTML = data.content
       document.title = data.basename
       initDocument()
+      if (window.initAnnotations) window.initAnnotations()
     })
     .catch(() => {
       const contentEl = document.getElementById('template-user-data')

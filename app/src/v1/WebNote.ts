@@ -19,13 +19,15 @@ export default class WebNote {
     noteContent: 'TEMPLATE_NOTE_CONTENT',
     scripts: 'TEMPLATE_SCRIPTS',
     assetsWebroot: 'TEMPLATE_ASSETS_WEBROOT',
-    decryptionFunctions: 'TEMPLATE_DECRYPTION_FUNCTIONS'
+    decryptionFunctions: 'TEMPLATE_DECRYPTION_FUNCTIONS',
+    annotationAssets: 'TEMPLATE_ANNOTATION_ASSETS'
   }
   private elements: { [key: string]: string } = {
     html: 'TEMPLATE_HTML',
     body: 'TEMPLATE_BODY',
     preview: 'TEMPLATE_PREVIEW',
-    pusher: 'TEMPLATE_PUSHER'
+    pusher: 'TEMPLATE_PUSHER',
+    annotations: 'TEMPLATE_ANNOTATIONS'
   }
   private html: string
 
@@ -115,6 +117,16 @@ export default class WebNote {
     if (enable) {
       this.replace(this.placeholders.scripts, `<script async src="${this.app.baseWebUrl}/assets/mathjax@3.2.2_es5_tex-chtml-full.js"></script>`)
     }
+  }
+
+  enableAnnotations (noteFilename: string) {
+    // Add data-note-id attribute to body
+    this.replace(this.elements.annotations, `data-note-id="${noteFilename}"`)
+
+    // Add annotation CSS and JS
+    const assets = `<link rel='stylesheet' href='${this.app.baseWebUrl}/assets/annotations.css'>` +
+      `<script src='${this.app.baseWebUrl}/assets/annotations.js'></script>`
+    this.replace(this.placeholders.annotationAssets, assets)
   }
 
   setClassAndStyle (elShortname: string, classes: any, style: any) {

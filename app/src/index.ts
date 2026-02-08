@@ -9,6 +9,7 @@ import Cloudflare from './v1/Cloudflare'
 import log from './v1/Log'
 import { router as fileRouter } from './v1/routes/file'
 import { router as accountRouter } from './v1/routes/account'
+import { router as annotationsRouter } from './v1/routes/annotations'
 import { HTTPException } from 'hono/http-exception'
 import { Cron } from './v1/Cron'
 import { trackView } from './v1/routes/middleware'
@@ -33,6 +34,7 @@ const app = new Hono()
 app.use('/v1/*', cors()) // CORS for all API routes
 app.route('/v1/file', fileRouter)
 app.route('/v1/account', accountRouter)
+app.route('/v1/annotations', annotationsRouter)
 app.get('/v1/ping', async () => {
   try {
     // Check to make sure the upload location exists and is writeable
